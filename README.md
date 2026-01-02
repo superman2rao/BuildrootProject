@@ -26,20 +26,10 @@ Note:- * Files external.desc, Config.in, external.mk are necessary to work with 
 * $ make  
 * Important: eth0 is renamed to enp... like naming scheme (most probabily due to "/dev management (Dynamic using devtmpfs + eudev)").  
 
-## V1.2
-1. Following changes are made in external-toolchian branch.  
-1. This version includes major development towards creation of external toolchain using buildroot for x86_64 target architecture.  
-1. "external_x86_64_toolchain_defconfig" defconfig file related to this change is available in configs directory.  
-1. To re-create run below commands
-* $ make BR2_EXTERNAL=<path/to/br2_external/directory> list-defconfigs  
-* $ make external_x86_64_toolchain_defconfig # It will be listed from above command  
-* $ make sdk # command to generate the external buildroot toolchain, building of toolchain sdk may take a significant amount of time  
-1. Ready to use toolchain "x86_64-buildroot-linux-gnu_sdk-buildroot.tar.gz" kept in toolchain directory.  
-
-Note:- 
-* GCC version: __13.x__  
-* binutils version: __2.43.1__  
-* glibc version: __2.41.70-xxxx__  
-* Kernel header version: __6.12.x or later__  
-* Having SSP, SSP-Strong, C++, etc features enabled
+## V1.1.1
+1. Minor update in defconfig, using pre compilied external toolchain as toolchain.  
+1. Pre build toolchain saves significant amount of time.  
+1. Add file package
+1. "mlinux_external_toolchain_defconfig" defconfig file kept in configs directory.
+1. External toolchain present in toolchain directory.
 
