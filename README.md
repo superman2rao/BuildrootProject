@@ -33,3 +33,9 @@ Note:- * Files external.desc, Config.in, external.mk are necessary to work with 
 1. "mlinux_external_toolchain_defconfig" defconfig file kept in configs directory.
 1. External toolchain present in toolchain directory.
 
+## V1.3 ( ClamAV )
+1. "mlinux_clamav_defconfig" defconfig file kept in configs directory, includes clamav and clamav daemon as main features using BR2_PACKAGE_CLAMAV=y, BR2_PACKAGE_NCURSES=y
+1. BR2_PACKAGE_NCURSES is main requirement for CLAMAV package.
+1. Some minor features such as fsck, mkfs, exfat etc. using UTIL_LINUX_BINARIES and DOSFSTOOLS.
+1. In-built buildroot fsck, mkfs do not provides full featured details, hence UTIL_LINUX_BINARIES package which gives featured basic Linux command functionalities.
+1. It also includes ROOTFS_POST_BUILD_SCRIPT, ROOTFS_USERS_TABLES, ROOTFS_OVERLAY scripts to configure clamav, clamav user, udev rules for runtime storage devices, init script for for starting clamav_daemon and copying clamav database.

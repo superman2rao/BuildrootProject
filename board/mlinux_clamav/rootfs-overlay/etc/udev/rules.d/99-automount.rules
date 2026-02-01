@@ -1,0 +1,2 @@
+ACTION=="add", KERNEL=="nvme*|sd[a-z]*|vd[a-z]*", SUBSYSTEM=="block", ENV{ID_FS_TYPE}!="swap", RUN+="/usr/local/bin/custom_mount %k add"
+ACTION=="remove", KERNEL=="nvme*|sd[a-z]*|vd[a-z]*", SUBSYSTEM=="block", RUN+="/usr/local/bin/custom_mount %k remove"

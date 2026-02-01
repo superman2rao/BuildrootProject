@@ -1,0 +1,31 @@
+#!/bin/sh
+# /etc/init.d/copy_clamdb
+SOURCE_PATH=`mount | grep /dev/sda* | awk '{print $3}'`
+DEST_PATH="/var/lib/clamav/"
+
+case "$1" in
+    start)
+	if [ -f $SOURCE_PATH/clamav/daily* -a -f $SOURCE_PATH/clamav/main* -a -f $SOURCE_PATH/clamav/bytecode* ]; then
+	    cp -r $SOURCE_PATH/clamav/* $DEST_PATH
+	    if [ `echo $?` -eq 0 ]; then
+		echo "Starting copy_clamdb : OK"
+		chmod 644 $DEST_PATH/*
+	    else 
+		echo "Starting copy_clamdb : Failed"
+	    fi
+	else
+	    echo "Starting copy_clamdb : Failed : Clamav database file not present"
+	fi
+	;;
+    stop)
+        echo "Stopping copy_clamdb : OK"
+        ;;
+    restart)
+        "$0" stop
+        "$0" start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        ;;
+esac
+exit 0

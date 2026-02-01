@@ -1,0 +1,37 @@
+#!/bin/sh
+# /etc/init.d/clamd
+CLAMD_PATH="/usr/sbin/clamd" # Adjust if needed
+CONFIG="/usr/etc/clamd.conf"
+CLAMDB_F1="/var/lib/clamav/daily*"
+CLAMDB_F2="/var/lib/clamav/main*"
+CLAMDB_F3="/var/lib/clamav/bytecode*"
+
+case "$1" in
+    start)
+        if [ -f $CONFIG -a -f $CLAMDB_F1 -a -f $CLAMDB_F2 -a -f $CLAMDB_F3 ]; then
+            "$CLAMD_PATH" -c "$CONFIG" & # Run in background for standard init
+            if [ `echo $?` -eq 0 ]; then
+                echo "Starting Clamd : OK"
+            else 
+                echo "Starting Clamd : Failed"
+            fi
+        else
+            echo "Starting Clamd : Failed : Clamav database or clamd.conf file not present"
+        fi
+        ;;
+    stop)
+        echo "Stopping clamd"
+        if ps aux | grep -v grep | grep $CLAMD_PATH > /dev/null ; then
+	    killall $CLAMD_PATH
+	    echo "OK"
+        fi
+        sleep 3
+        ;;
+    restart)
+        "$0" stop
+        "$0" start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+esac
+exit 0
