@@ -1,0 +1,31 @@
+#!/bin/sh
+# This script is triggered when any devices is attached as per udev rules in /etc/udev/rules.d/ 
+#and below 2 arguments are passed from these rules
+
+DEVICE=$1
+ACTION=$2
+
+case "$ACTION" in
+    add)
+        # Get filesystem label or fall back to device name
+        LABEL=$(/sbin/blkid -o value -s LABEL /dev/$DEVICE) 
+        [ -z "$LABEL" ] && LABEL="$DEVICE"
+        
+        MOUNT_POINT="/media/$LABEL"
+        mkdir -p ${MOUNT_POINT}
+        if ! mount /dev/${DEVICE} ${MOUNT_POINT} >/dev/null 2>&1 ; then
+            rmdir ${MOUNT_POINT}
+        fi
+        ;;
+    remove)
+        # Get filesystem label or fall back to device name
+        LABEL=$(/sbin/blkid -o value -s LABEL /dev/$DEVICE) 
+        [ -z "$LABEL" ] && LABEL="$DEVICE"
+
+        MOUNT_POINT="/media/$LABEL"
+        if umount ${MOUNT_POINT} ; then
+            rmdir ${MOUNT_POINT}
+        fi
+        ;;
+esac
+
